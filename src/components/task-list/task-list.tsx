@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+
 const items = [
   {
     id: 1,
@@ -16,6 +18,10 @@ const items = [
 const TaskList = (): JSX.Element => {
   const hasItems = items.length !== 0;
 
+  const handleChange = (e: ChangeEvent) => {
+    console.log(e);
+  };
+
   return (
     <>
       <ul className="task-list">
@@ -23,7 +29,11 @@ const TaskList = (): JSX.Element => {
           return (
             <li key={id} className="task-item">
               <label className="task-item__label">
-                <input type="checkbox" className="task-item__input" />
+                <input
+                  type="checkbox"
+                  className="task-item__input"
+                  onChange={handleChange}
+                />
                 {title}
               </label>
             </li>
