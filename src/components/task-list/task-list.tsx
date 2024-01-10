@@ -1,5 +1,7 @@
 import { ChangeEvent } from 'react';
 
+import { TaskItem } from '../task-item/task-item';
+
 const items = [
   {
     id: 1,
@@ -26,18 +28,7 @@ const TaskList = (): JSX.Element => {
     <>
       <ul className="task-list">
         {items.map(({ id, title }) => {
-          return (
-            <li key={id} className="task-item">
-              <label className="task-item__label">
-                <input
-                  type="checkbox"
-                  className="task-item__input"
-                  onChange={handleChange}
-                />
-                {title}
-              </label>
-            </li>
-          );
+          return <TaskItem key={id} title={title} onChange={handleChange} />
         })}
       </ul>
       {!hasItems && <p className="task-list__placeholder">No Tasks</p>}
