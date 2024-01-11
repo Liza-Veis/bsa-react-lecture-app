@@ -1,23 +1,27 @@
-import { ChangeEvent } from 'react';
-
+import { Task } from '../../common/types/task.type';
 import { TaskItem } from '../task-item/task-item';
 
 type Props = {
-  items: { title: string; id: string; }[];
-}
+  items: Task[];
+  onTaskToggle: (id: string, isCompleted: boolean) => void;
+};
 
-const TaskList = ({ items }: Props): JSX.Element => {
+const TaskList = ({ items, onTaskToggle }: Props): JSX.Element => {
   const hasItems = items.length !== 0;
-
-  const handleChange = (e: ChangeEvent) => {
-    console.log(e);
-  };
 
   return (
     <>
       <ul className="task-list">
-        {items.map(({ id, title }) => {
-          return <TaskItem key={id} title={title} onChange={handleChange} />
+        {items.map(({ id, title, isCompleted }) => {
+          return (
+            <TaskItem
+              key={id}
+              id={id}
+              title={title}
+              isCompleted={isCompleted}
+              onToggle={onTaskToggle}
+            />
+          );
         })}
       </ul>
       {!hasItems && <p className="task-list__placeholder">No Tasks</p>}

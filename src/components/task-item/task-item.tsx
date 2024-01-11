@@ -1,18 +1,23 @@
-import { ChangeEvent } from 'react';
-
 type Props = {
+  id: string;
   title: string;
-  onChange: (e: ChangeEvent) => void;
+  isCompleted: boolean;
+  onToggle: (id: string, isCompleted: boolean) => void;
 };
 
-const TaskItem = ({ title, onChange }: Props): JSX.Element => {
+const TaskItem = ({ id, title, isCompleted, onToggle }: Props): JSX.Element => {
+  const handleChange = () => {
+    onToggle(id, !isCompleted);
+  };
+
   return (
     <li className="task-item">
       <label className="task-item__label">
         <input
           type="checkbox"
+          checked={isCompleted}
           className="task-item__input"
-          onChange={onChange}
+          onChange={handleChange}
         />
         {title}
       </label>

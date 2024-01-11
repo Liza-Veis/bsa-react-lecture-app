@@ -2,25 +2,25 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 
 type Props = {
   onSubmit: (name: string) => void;
-}
+};
 
 const AddTaskForm = ({ onSubmit }: Props) => {
   const [name, setName] = useState('');
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value)
+    setName(e.target.value);
   };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     if (name.trim() === '') {
-      return
+      return;
     }
 
     onSubmit(name);
     setName('');
-  }
+  };
 
   return (
     <form className="add-task" onSubmit={handleSubmit}>
