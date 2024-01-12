@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 type Props = {
   id: string;
   title: string;
@@ -29,7 +31,7 @@ const TaskItem = ({
         {title}
       </label>
       {isViewTaskShown && (
-        <a href={`tasks/${id}`} className="task-item__view-task-link">View Task</a>
+        <Link to={`tasks/${id}`} className="task-item__view-task-link">View Task</Link>
       )}
     </li>
   );

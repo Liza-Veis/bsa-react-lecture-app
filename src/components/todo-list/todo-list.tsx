@@ -1,5 +1,5 @@
-import { AddTaskForm } from '../add-task-form/add-task-form';
-import { TaskList } from '../task-list/task-list';
+import { AddTaskForm } from '../common/add-task-form/add-task-form';
+import { TaskList } from '../common/task-list/task-list';
 import { Task } from '../../common/types/types';
 
 type Props = {

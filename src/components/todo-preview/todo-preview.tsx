@@ -1,13 +1,21 @@
+import { Link, useParams } from 'react-router-dom';
+
 import { Task } from '../../common/types/types';
-import { TaskItem } from '../task-item/task-item';
+import { TaskItem } from '../common/task-item/task-item';
 
 type Props = {
-  id: string;
   tasks: Task[];
   onTaskToggle: (id: string, isCompleted: boolean) => void;
 };
 
-const TodoPreview = ({ id, tasks, onTaskToggle }: Props): JSX.Element => {
+// useParams
+// useNavigation
+// useMatch
+// useLocation
+
+const TodoPreview = ({ tasks, onTaskToggle }: Props): JSX.Element => {
+  const { id } = useParams();
+
   const task = tasks.find((task) => task.id === id);
 
   if (!task) {
@@ -15,9 +23,9 @@ const TodoPreview = ({ id, tasks, onTaskToggle }: Props): JSX.Element => {
       <>
         <h2>Task Not Found</h2>
         <p>Sorry, the task was not found.</p>
-        <a className="back-link" href="/">
+        <Link className="back-link" to="/">
           Back
-        </a>
+        </Link>
       </>
     );
   }
@@ -32,9 +40,9 @@ const TodoPreview = ({ id, tasks, onTaskToggle }: Props): JSX.Element => {
         isCompleted={task.isCompleted}
         onToggle={onTaskToggle}
       />
-      <a className="back-link" href="/">
+      <Link className="back-link" to="/">
         Back
-      </a>
+      </Link>
     </>
   );
 };

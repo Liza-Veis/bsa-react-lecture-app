@@ -1,4 +1,4 @@
-import { Task } from '../../common/types/task.type';
+import { Task } from '../../../common/types/task.type';
 import { TaskItem } from '../task-item/task-item';
 
 type Props = {
