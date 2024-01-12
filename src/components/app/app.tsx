@@ -1,11 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { AddTaskForm } from '../add-task-form/add-task-form';
 import { TaskList } from '../task-list/task-list';
 import { Task } from '../../common/types/types';
+import { StorageKey } from '../../common/enums/enums';
 
 const App = (): JSX.Element => {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const savedTasks = localStorage.getItem(StorageKey.TASKS);
+
+    setTasks(savedTasks ? JSON.parse(savedTasks) : []);
+    setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem(StorageKey.TASKS, JSON.stringify(tasks));
+    }
+  }, [tasks, isLoaded]);
 
   const addTask = (name: string) => {
     setTasks([
