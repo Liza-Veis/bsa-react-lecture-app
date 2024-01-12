@@ -49,13 +49,13 @@ body {
 }
 
 .add-task__input:focus-visible {
-  border: 1px solid #149ECA;
+  border: 1px solid #149eca;
   outline: none;
 }
 
 .add-task__button {
   padding: 10px 20px;
-  background-color: #149ECA;
+  background-color: #149eca;
   color: #ffffff;
   font-family: sans-serif;
   border-radius: 5px;
@@ -67,7 +67,7 @@ body {
 
 .add-task__button:hover,
 .add-task__button:focus-visible {
-  background-color: #0C7B9E;
+  background-color: #0c7b9e;
 }
 
 .task-list {
@@ -85,7 +85,7 @@ body {
   text-align: center;
 }
 
-.task-list li:has(input:checked) label {
+.task-item:has(input:checked) label {
   text-decoration: line-through;
   opacity: 0.7;
 }
@@ -105,24 +105,45 @@ body {
 }
 
 .task-item:has(.task-item__input:focus-visible) .task-item__label {
-  outline: 1px solid #149ECA;
+  outline: 1px solid #149eca;
 }
 
 .task-item__input {
-  accent-color: #149ECA;
+  accent-color: #149eca;
   cursor: pointer;
   outline: none;
 }
 
-.task-item__delete-button {
-  padding: 3px 10px;
-  border-radius: 3px;
-  background-color: transparent;
+.task-item__view-task-link {
+  color: #149eca;
   cursor: pointer;
-  border: none;
+  font-size: 14px;
+  transition: color 0.2s ease;
 }
 
-.task-item__delete-button:focus-visible {
-  border-radius: 3px;
-  outline: 1px solid #149ECA;
+.task-item__view-task-link:hover {
+  color: #0c7b9e;
+}
+
+.todo-preview__title {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.todo-preview__id {
+  margin: 0 0 30px;
+  font-size: 14px;
+  color: #9fa6b3;
+}
+
+.back-link {
+  display: block;
+  margin-top: 30px;
+  color: #149eca;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: #0c7b9e;
 }

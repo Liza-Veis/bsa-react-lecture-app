@@ -19,6 +19,7 @@ const TaskList = ({ items, onTaskToggle }: Props): JSX.Element => {
               id={id}
               title={title}
               isCompleted={isCompleted}
+              isViewTaskShown={true}
               onToggle={onTaskToggle}
             />
           );

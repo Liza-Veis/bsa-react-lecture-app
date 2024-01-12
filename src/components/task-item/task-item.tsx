@@ -2,10 +2,17 @@ type Props = {
   id: string;
   title: string;
   isCompleted: boolean;
+  isViewTaskShown?: boolean;
   onToggle: (id: string, isCompleted: boolean) => void;
 };
 
-const TaskItem = ({ id, title, isCompleted, onToggle }: Props): JSX.Element => {
+const TaskItem = ({
+  id,
+  title,
+  isCompleted,
+  isViewTaskShown = false,
+  onToggle,
+}: Props): JSX.Element => {
   const handleChange = () => {
     onToggle(id, !isCompleted);
   };
@@ -21,6 +28,9 @@ const TaskItem = ({ id, title, isCompleted, onToggle }: Props): JSX.Element => {
         />
         {title}
       </label>
+      {isViewTaskShown && (
+        <a href={`tasks/${id}`} className="task-item__view-task-link">View Task</a>
+      )}
     </li>
   );
 };

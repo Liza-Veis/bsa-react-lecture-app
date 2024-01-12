@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 
-import { AddTaskForm } from '../add-task-form/add-task-form';
-import { TaskList } from '../task-list/task-list';
 import { Task } from '../../common/types/types';
-import { StorageKey } from '../../common/enums/enums';
+import { AppPath, StorageKey } from '../../common/enums/enums';
+import { TodoList } from '../todo-list/todo-list';
+import { TodoPreview } from '../todo-preview/todo-preview'
+import { NotFound } from '../not-found/not-found';
 
 const App = (): JSX.Element => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  const { pathname } = window.location;
 
   useEffect(() => {
     const savedTasks = localStorage.getItem(StorageKey.TASKS);
@@ -22,7 +25,7 @@ const App = (): JSX.Element => {
     }
   }, [tasks, isLoaded]);
 
-  const addTask = (name: string) => {
+  const handleTaskAdd = (name: string) => {
     setTasks([
       ...tasks,
       {
@@ -45,11 +48,30 @@ const App = (): JSX.Element => {
     setTasks(updatedTasks);
   };
 
+  const getScreen = (path: string) => {
+    const id = path.split('/').pop() as string;
+
+    switch (path) {
+      case AppPath.ROOT: {
+        return (
+          <TodoList tasks={tasks} onTaskAdd={handleTaskAdd} onTaskToggle={handleTaskToggle} />
+        );
+      }
+      case `${AppPath.TASKS}/${id}`: {
+        return (
+          <TodoPreview id={id} tasks={tasks} onTaskToggle={handleTaskToggle} />
+        );
+      }
+      default: {
+        return <NotFound />;
+      }
+    }
+  };
+
   return (
     <main>
       <h1 className="header">Todo List</h1>
-      <AddTaskForm onSubmit={addTask} />
-      <TaskList items={tasks} onTaskToggle={handleTaskToggle} />
+      {getScreen(pathname)}
     </main>
   );
 };
