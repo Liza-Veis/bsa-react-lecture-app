@@ -4,15 +4,15 @@ type Props = {
   onSubmit: (name: string) => void;
 };
 
-const AddTaskForm = ({ onSubmit }: Props) => {
+const AddTaskForm = ({ onSubmit }: Props): JSX.Element => {
   const [name, setName] = useState('');
 
-  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+  const handleNameChange = (_event: ChangeEvent<HTMLInputElement>) => {
+    setName(_event.target.value);
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (_event: FormEvent) => {
+    _event.preventDefault();
 
     if (name.trim() === '') {
       return;

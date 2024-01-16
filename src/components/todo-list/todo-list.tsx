@@ -6,7 +6,7 @@ type Props = {
   tasks: Task[];
   onTaskAdd: (name: string) => void;
   onTaskToggle: (id: string, isChecked: boolean) => void;
-}
+};
 
 const TodoList = ({ tasks, onTaskAdd, onTaskToggle }: Props): JSX.Element => {
   return (

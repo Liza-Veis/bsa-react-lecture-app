@@ -31,7 +31,9 @@ const TaskItem = ({
         {title}
       </label>
       {isViewTaskShown && (
-        <Link to={`tasks/${id}`} className="task-item__view-task-link">View Task</Link>
+        <Link to={`tasks/${id}`} className="task-item__view-task-link">
+          View Task
+        </Link>
       )}
     </li>
   );
