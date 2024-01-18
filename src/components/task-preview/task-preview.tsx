@@ -8,12 +8,7 @@ type Props = {
   onTaskToggle: (id: string, isCompleted: boolean) => void;
 };
 
-// useParams
-// useNavigation
-// useMatch
-// useLocation
-
-const TodoPreview = ({ tasks, onTaskToggle }: Props): JSX.Element => {
+const TaskPreview = ({ tasks, onTaskToggle }: Props): JSX.Element => {
   const { id } = useParams();
 
   const task = tasks.find((task) => task.id === id);
@@ -47,4 +42,4 @@ const TodoPreview = ({ tasks, onTaskToggle }: Props): JSX.Element => {
   );
 };
 
-export { TodoPreview };
+export { TaskPreview };

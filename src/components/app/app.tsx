@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { Task } from '../../common/types/types';
 import { AppPath, StorageKey } from '../../common/enums/enums';
-import { TodoList } from '../todo-list/todo-list';
-import { TodoPreview } from '../todo-preview/todo-preview';
+import { TaskList } from '../task-list/task-list';
+import { TaskPreview } from '../task-preview/task-preview';
 import { NotFound } from '../not-found/not-found';
 import { RouterProvider } from '../common/router-provider/router-provider';
 
@@ -58,8 +58,8 @@ const App = (): JSX.Element => {
               {
                 path: AppPath.ROOT,
                 element: (
-                  <TodoList
-                    tasks={tasks}
+                  <TaskList
+                  tasks={tasks}
                     onTaskAdd={handleTaskAdd}
                     onTaskToggle={handleTaskToggle}
                   />
@@ -68,7 +68,7 @@ const App = (): JSX.Element => {
               {
                 path: AppPath.ROOT,
                 element: (
-                  <TodoList
+                  <TaskList
                     tasks={tasks}
                     onTaskAdd={handleTaskAdd}
                     onTaskToggle={handleTaskToggle}
@@ -78,7 +78,7 @@ const App = (): JSX.Element => {
               {
                 path: AppPath.TASKS_$ID,
                 element: (
-                  <TodoPreview tasks={tasks} onTaskToggle={handleTaskToggle} />
+                  <TaskPreview tasks={tasks} onTaskToggle={handleTaskToggle} />
                 ),
               },
               { path: AppPath.ANY, element: <NotFound /> },
