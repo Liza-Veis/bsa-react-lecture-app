@@ -125,6 +125,11 @@ body {
   color: #0c7b9e;
 }
 
+.task-item__view-task-link:focus-visible {
+  color: #0c7b9e;
+  outline: 1px solid #149eca;
+}
+
 .todo-preview__title {
   margin-bottom: 10px;
   font-size: 20px;
@@ -146,4 +151,9 @@ body {
 
 .back-link:hover {
   color: #0c7b9e;
+}
+
+.back-link:focus-visible {
+  color: #0c7b9e;
+  outline: 1px solid #149eca;
 }
