@@ -1,50 +1,21 @@
-import { useEffect, useState } from 'react';
-
-import { Task } from '../../common/types/types';
-import { AppPath, StorageKey } from '../../common/enums/enums';
+import { AppPath } from '../../common/enums/enums';
 import { TaskList } from '../task-list/task-list';
 import { TaskPreview } from '../task-preview/task-preview';
 import { NotFound } from '../not-found/not-found';
-import { RouterProvider } from '../common/router-provider/router-provider';
+import { RouterProvider } from '../common/common';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { tasksActions } from '../../store/actions';
 
 const App = (): JSX.Element => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    const savedTasks = localStorage.getItem(StorageKey.TASKS);
-
-    setTasks(savedTasks ? JSON.parse(savedTasks) : []);
-    setIsLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem(StorageKey.TASKS, JSON.stringify(tasks));
-    }
-  }, [tasks, isLoaded]);
+  const tasks = useAppSelector((state) => state.tasks.tasks);
+  const dispatch = useAppDispatch();
 
   const handleTaskAdd = (name: string) => {
-    setTasks([
-      ...tasks,
-      {
-        id: crypto.randomUUID(),
-        title: name,
-        isCompleted: false,
-      },
-    ]);
+    dispatch(tasksActions.addTask(name));
   };
 
   const handleTaskToggle = (id: string, isCompleted: boolean) => {
-    const updatedTasks = tasks.map((task) => {
-      if (task.id === id) {
-        return { ...task, isCompleted };
-      }
-
-      return task;
-    });
-
-    setTasks(updatedTasks);
+    dispatch(tasksActions.toggleTask({ id, isCompleted }));
   };
 
   return (
@@ -59,7 +30,7 @@ const App = (): JSX.Element => {
                 path: AppPath.ROOT,
                 element: (
                   <TaskList
-                  tasks={tasks}
+                    tasks={tasks}
                     onTaskAdd={handleTaskAdd}
                     onTaskToggle={handleTaskToggle}
                   />

@@ -1,2 +1,1 @@
-export { StorageKey } from './storage-key.enum';
-export { AppPath } from './app-path.enum';
+export { AppPath, StorageKey } from './app/app';
