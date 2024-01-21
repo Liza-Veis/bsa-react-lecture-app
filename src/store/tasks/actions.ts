@@ -1,154 +1,60 @@
-import {
-  type ValueOf,
-  type Task,
-  type ThunkAction,
-} from '../../common/types/types';
-import { DataStatus } from '../../common/enums/enums';
-import { ActionType } from './common';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-type SetStatusAction = {
-  type: typeof ActionType.SET_STATUS;
-  payload: {
-    status: ValueOf<typeof DataStatus>;
-  };
-};
-
-type SetTasksAction = {
-  type: typeof ActionType.SET_TASKS;
-  payload: {
-    tasks: Task[];
-  };
-};
-
-type AddTaskAction = {
-  type: typeof ActionType.ADD_TASK;
-  payload: Task;
-};
+import { type Task, AsyncThunkConfig } from '../../common/types/types';
+import { name } from './slice';
 
 type UpdateTaskActionPayload = {
   id: string;
   isCompleted: boolean;
 };
 
-type SetTaskAction = {
-  type: typeof ActionType.SET_TASK;
-  payload: Task;
-};
+const loadTasks = createAsyncThunk<Task[], void, AsyncThunkConfig>(
+  `${name}/load-tasks`,
+  async (_payload, { extra }) => {
+    const { tasksService } = extra;
 
-type SetCurrentTaskAction = {
-  type: typeof ActionType.SET_CURRENT_TASK;
-  payload: Task | null;
-};
+    const tasks = await tasksService.getAll();
 
-type Action =
-  | SetStatusAction
-  | SetTasksAction
-  | AddTaskAction
-  | SetTaskAction
-  | SetCurrentTaskAction;
+    return tasks;
+  },
+);
 
-const setStatus = (status: ValueOf<typeof DataStatus>) => {
-  return {
-    type: ActionType.SET_STATUS,
-    payload: {
-      status,
-    },
-  };
-};
+const loadTask = createAsyncThunk<Task, string, AsyncThunkConfig>(
+  `${name}/load-task`,
+  async (payload, { extra }) => {
+    const { tasksService } = extra;
 
-const setTasks = (tasks: Task[]): SetTasksAction => {
-  return {
-    type: ActionType.SET_TASKS,
-    payload: {
-      tasks,
-    },
-  };
-};
+    const task = await tasksService.getById(payload);
 
-const addTask = (payload: Task): AddTaskAction => {
-  return {
-    type: ActionType.ADD_TASK,
-    payload,
-  };
-};
+    return task;
+  },
+);
 
-const setTask = (payload: Task): SetTaskAction => {
-  return {
-    type: ActionType.SET_TASK,
-    payload,
-  };
-};
+const createTask = createAsyncThunk<Task, string, AsyncThunkConfig>(
+  `${name}/create-task`,
+  async (payload, { extra }) => {
+    const { tasksService } = extra;
 
-const setCurrentTask = (payload: Task | null): SetCurrentTaskAction => {
-  return {
-    type: ActionType.SET_CURRENT_TASK,
-    payload,
-  };
-};
-
-const loadTasks =
-  (): ThunkAction =>
-  async (dispatch, _getState, { tasksService }) => {
-    dispatch(setStatus(DataStatus.PENDING));
-
-    try {
-      const tasks = await tasksService.getAll();
-
-      dispatch(setTasks(tasks));
-
-      dispatch(setStatus(DataStatus.SUCCESS));
-    } catch {
-      dispatch(setStatus(DataStatus.ERROR));
-    }
-  };
-
-const loadTask =
-  (id: string): ThunkAction =>
-  async (dispatch, _getState, { tasksService }) => {
-    try {
-      const task = await tasksService.getById(id);
-
-      dispatch(setCurrentTask(task));
-    } catch {
-      dispatch(setStatus(DataStatus.ERROR));
-    }
-  };
-
-const createTask =
-  (title: string): ThunkAction =>
-  async (dispatch, _getState, { tasksService }) => {
-    const payload = {
+    const task = await tasksService.create({
       id: crypto.randomUUID(),
-      title,
+      title: payload,
       isCompleted: false,
-    };
+    });
 
-    try {
-      const task = await tasksService.create(payload);
+    return task;
+  },
+);
 
-      dispatch(addTask(task));
-    } catch {
-      dispatch(setStatus(DataStatus.ERROR));
-    }
-  };
+const updateTask = createAsyncThunk<
+  Task,
+  UpdateTaskActionPayload,
+  AsyncThunkConfig
+>(`${name}/update-task`, async (payload, { extra }) => {
+  const { tasksService } = extra;
 
-const updateTask =
-  (payload: UpdateTaskActionPayload): ThunkAction =>
-  async (dispatch, _getState, { tasksService }) => {
-    try {
-      const task = await tasksService.update(payload);
+  const task = await tasksService.update(payload);
 
-      dispatch(setTask(task));
-    } catch {
-      dispatch(setStatus(DataStatus.ERROR));
-    }
-  };
+  return task;
+});
 
-const actions = {
-  loadTasks,
-  loadTask,
-  createTask,
-  updateTask,
-};
-
-export { type Action, actions };
+export { loadTasks, loadTask, createTask, updateTask };

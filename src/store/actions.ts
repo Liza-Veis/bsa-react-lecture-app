@@ -1,1 +1,1 @@
-export { actions as tasksActions } from './tasks/actions';
+export { actions as tasksActions } from './tasks/tasks';

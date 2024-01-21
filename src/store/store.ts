@@ -1,5 +1,4 @@
-import { applyMiddleware, legacy_createStore } from 'redux';
-import { withExtraArgument as thunkMiddleware } from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit';
 
 import { tasks as tasksService } from '../services/services';
 import { rootReducer } from './root-reducer';
@@ -8,9 +7,14 @@ const extraArgument = {
   tasksService,
 };
 
-const store = legacy_createStore(
-  rootReducer,
-  applyMiddleware(thunkMiddleware(extraArgument)) as any,
-);
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument,
+      },
+    }),
+});
 
 export { store, extraArgument };
