@@ -12,5 +12,6 @@ This repository contains TodoList application for React lectures. Code for the *
 ## 🏃‍♂️ Simple Start
 
 1. **`npm install`**
-2. **`npm run dev`**
-3. Enjoy <3
+2. **`npm run start:client`**
+3. **`npm run start:server`**
+4. Enjoy <3

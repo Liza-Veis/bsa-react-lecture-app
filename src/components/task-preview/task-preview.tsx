@@ -1,17 +1,25 @@
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { Task } from '../../common/types/types';
 import { TaskItem } from '../common/task-item/task-item';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { tasksActions } from '../../store/actions';
 
-type Props = {
-  tasks: Task[];
-  onTaskToggle: (id: string, isCompleted: boolean) => void;
-};
-
-const TaskPreview = ({ tasks, onTaskToggle }: Props): JSX.Element => {
+const TaskPreview = (): JSX.Element => {
   const { id } = useParams();
 
-  const task = tasks.find((task) => task.id === id);
+  const task = useAppSelector((state) => state.tasks.currentTask);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (id) {
+      dispatch(tasksActions.loadTask(id));
+    }
+  }, [id]);
+
+  const handleTaskToggle = (id: string, isCompleted: boolean) => {
+    dispatch(tasksActions.updateTask({ id, isCompleted }));
+  };
 
   if (!task) {
     return (
@@ -33,7 +41,7 @@ const TaskPreview = ({ tasks, onTaskToggle }: Props): JSX.Element => {
         id={task.id}
         title={task.title}
         isCompleted={task.isCompleted}
-        onToggle={onTaskToggle}
+        onToggle={handleTaskToggle}
       />
       <Link className="back-link" to="/">
         Back
